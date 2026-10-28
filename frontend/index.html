@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Avaliação Física & Análise Postural</title>
+  <style>
+    * { 
+      box-sizing: border-box; 
+      margin: 0; 
+      padding: 0; 
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
+    }
+    
+    body { 
+      background-color: #f4f6f8; 
+      color: #171717; 
+      padding: 24px 16px; 
+    }
+
+    .container { 
+      max-width: 920px; 
+      margin: 0 auto; 
+      background: #ffffff; 
+      padding: 28px; 
+      border-radius: 12px; 
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); 
+    }
+
+    h2 { 
+      font-size: 1.5rem; 
+      margin-bottom: 24px; 
+      text-align: center; 
+      color: #111111; 
+      letter-spacing: -0.5px;
+    }
+    
+    .section-title { 
+      font-size: 0.9rem; 
+      font-weight: 700; 
+      text-transform: uppercase; 
+      letter-spacing: 0.6px; 
+      margin-bottom: 14px; 
+      color: #444444; 
+      border-bottom: 2px solid #eeeeee; 
+      padding-bottom: 6px; 
+    }
+    
+    /* Form groups & inputs */
+    .form-group { 
+      display: flex; 
+      flex-direction: column; 
+      gap: 5px; 
+    }
+
+    label { 
+      font-size: 0.8rem; 
+      font-weight: 600; 
+      color: #555555; 
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+    }
+
+    input, select { 
+      padding: 9px 12px; 
+      border: 1px solid #d1d5db; 
+      border-radius: 6px; 
+      font-size: 0.9rem; 
+      background-color: #fafafa;
+      transition: all 0.2s ease;
+    }
+
+    input:focus, select:focus { 
+      border-color: #19BDF2; 
+      background-color: #ffffff;
+      outline: none; 
+      box-shadow: 0 0 0 3px rgba(25, 189, 242, 0.15);
+    }
+
+    /* 1. Dados Gerais + Antropometria Básica */
+    .dados-gerais-grid { 
+      display: grid; 
+      grid-template-columns: 2fr 0.8fr 1fr 1.5fr 1fr 1fr; 
+      gap: 12px; 
+      margin-bottom: 24px; 
+    }
+
+    /* 2 e 3. Duas Colunas: Perimetria + Dobras Cutâneas */
+    .medidas-container { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 24px; 
+      margin-bottom: 24px; 
+    }
+
+    .sub-grid { 
+      display: grid; 
+      grid-template-columns: 1fr 1fr; 
+      gap: 10px; 
+    }
+
+    .dual-input {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dual-input input {
+      width: 50%;
+    }
+
+    /* 4. Upload de Foto */
+    .upload-box { 
+      border: 2px dashed #cbd5e1; 
+      border-radius: 8px; 
+      padding: 24px; 
+      text-align: center; 
+      background: #f8fafc; 
+      cursor: pointer; 
+      transition: all 0.2s ease;
+    }
+
+    .upload-box:hover { 
+      border-color: #19BDF2; 
+      background: #f0f9ff; 
+    }
+
+    .upload-box p {
+      font-size: 0.85rem;
+      color: #64748b;
+      margin-bottom: 10px;
+    }
+
+    /* Botão Principal */
+    .btn-submit { 
+      width: 100%; 
+      padding: 14px; 
+      background: #171717; 
+      color: #ffffff; 
+      font-weight: 700; 
+      font-size: 1rem; 
+      border: none; 
+      border-radius: 8px; 
+      cursor: pointer; 
+      margin-top: 24px; 
+      transition: background-color 0.2s ease; 
+    }
+
+    .btn-submit:hover { 
+      background: #333333; 
+    }
+
+    /* Responsividade */
+    @media (max-width: 768px) {
+      .dados-gerais-grid {
+        grid-template-columns: 1fr 1fr;
+      }
+      .medidas-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+  <h2>Avaliação Física & Análise Postural</h2>
+
+  <form id="evalForm">
+    <!-- 1. DADOS GERAIS DO ALUNO + ANTROPOMETRIA BÁSICA -->
+    <div class="section-title">1. Dados do Aluno & Antropometria Básica</div>
+    <div class="dados-gerais-grid">
+      <div class="form-group">
+        <label>Nome Completo</label>
+        <input type="text" name="nome" placeholder="Ex: João Silva" required>
+      </div>
+      <div class="form-group">
+        <label>Idade</label>
+        <input type="number" name="idade" placeholder="Ex: 30" min="10" max="100" required>
+      </div>
+      <div class="form-group">
+        <label>Sexo</label>
+        <select name="sexo" required>
+          <option value="M">Masc</option>
+          <option value="F">Fem</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Objetivo</label>
+        <input type="text" name="objetivo" placeholder="Hipertrofia / Postura">
+      </div>
+      <div class="form-group">
+        <label>Peso (kg)</label>
+        <input type="number" name="peso" step="0.1" placeholder="75.5" required>
+      </div>
+      <div class="form-group">
+        <label>Altura (cm)</label>
+        <input type="number" name="altura" placeholder="175" required>
+      </div>
+    </div>
+
+    <!-- 2 E 3. PERIMETRIA E DOBRAS CUTÂNEAS (LADO A LADO) -->
+    <div class="medidas-container">
+      
+      <!-- Coluna Esquerda: Perimetria -->
+      <div>
+        <div class="section-title">2. Perimetria (cm)</div>
+        <div class="sub-grid">
+          <div class="form-group">
+            <label>Tórax</label>
+            <input type="number" name="perim_torax" step="0.1" placeholder="98.0">
+          </div>
+          <div class="form-group">
+            <label>Cintura</label>
+            <input type="number" name="perim_cintura" step="0.1" placeholder="80.0">
+          </div>
+          <div class="form-group">
+            <label>Abdômen</label>
+            <input type="number" name="perim_abdomen" step="0.1" placeholder="84.0">
+          </div>
+          <div class="form-group">
+            <label>Quadril</label>
+            <input type="number" name="perim_quadril" step="0.1" placeholder="100.0">
+          </div>
+          <div class="form-group">
+            <label>Braço Dir / Esq</label>
+            <div class="dual-input">
+              <input type="number" name="perim_braco_d" step="0.1" placeholder="D">
+              <input type="number" name="perim_braco_e" step="0.1" placeholder="E">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Coxa Dir / Esq</label>
+            <div class="dual-input">
+              <input type="number" name="perim_coxa_d" step="0.1" placeholder="D">
+              <input type="number" name="perim_coxa_e" step="0.1" placeholder="E">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Coluna Direita: Dobras Cutâneas (Adipômetro - Jackson & Pollock 7 Dobras) -->
+      <div>
+        <div class="section-title">3. Dobras Cutâneas - Adipômetro (mm)</div>
+        <div class="sub-grid">
+          <div class="form-group">
+            <label>Tricipital</label>
+            <input type="number" name="dobra_triceps" step="0.1" placeholder="12.0">
+          </div>
+          <div class="form-group">
+            <label>Subescapular</label>
+            <input type="number" name="dobra_subescapular" step="0.1" placeholder="15.0">
+          </div>
+          <div class="form-group">
+            <label>Peitoral</label>
+            <input type="number" name="dobra_peitoral" step="0.1" placeholder="8.0">
+          </div>
+          <div class="form-group">
+            <label>Axilar Média</label>
+            <input type="number" name="dobra_axilar" step="0.1" placeholder="10.0">
+          </div>
+          <div class="form-group">
+            <label>Supra-ilíaca</label>
+            <input type="number" name="dobra_suprailiaca" step="0.1" placeholder="18.0">
+          </div>
+          <div class="form-group">
+            <label>Abdominal</label>
+            <input type="number" name="dobra_abdominal" step="0.1" placeholder="22.0">
+          </div>
+          <div class="form-group" style="grid-column: span 2;">
+            <label>Coxa</label>
+            <input type="number" name="dobra_coxa" step="0.1" placeholder="14.0">
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 4. ANÁLISE POSTURAL POR FOTO -->
+    <div class="section-title">4. Análise Postural (IA)</div>
+    <div class="upload-box">
+      <p>Envie a foto do aluno em postura anatômica (vista frontal ou lateral)</p>
+      <input type="file" id="fotoAluno" name="foto" accept="image/*" required>
+    </div>
+
+    <button type="submit" class="btn-submit">Processar e Gerar Avaliação Completa</button>
+  </form>
+</div>
+
+</body>
+</html>
