@@ -1,0 +1,11 @@
+# Python
+__pycache__/
+.venv/
+env/
+
+# Configuracoes sensiveis (Chaves de API da IA)
+.env
+
+# Sistema operacional
+.DS_Store
+Thumbs.db
