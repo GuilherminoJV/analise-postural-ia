@@ -3,288 +3,1745 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#eaf4fb">
+  <meta name="description" content="Sistema de avaliação física e triagem postural.">
   <title>Avaliação Física & Análise Postural</title>
+
   <style>
-    * { 
-      box-sizing: border-box; 
-      margin: 0; 
-      padding: 0; 
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif; 
-    }
-    
-    body { 
-      background-color: #f4f6f8; 
-      color: #171717; 
-      padding: 24px 16px; 
-    }
-
-    .container { 
-      max-width: 920px; 
-      margin: 0 auto; 
-      background: #ffffff; 
-      padding: 28px; 
-      border-radius: 12px; 
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06); 
+    :root {
+      --bg: #edf3f8;
+      --white: #ffffff;
+      --blue-light: #e8f5fc;
+      --blue: #42b9e8;
+      --blue-dark: #087eaf;
+      --text: #182536;
+      --muted: #64748b;
+      --border: #d9e4ee;
+      --radius: 14px;
     }
 
-    h2 { 
-      font-size: 1.5rem; 
-      margin-bottom: 24px; 
-      text-align: center; 
-      color: #111111; 
-      letter-spacing: -0.5px;
-    }
-    
-    .section-title { 
-      font-size: 0.9rem; 
-      font-weight: 700; 
-      text-transform: uppercase; 
-      letter-spacing: 0.6px; 
-      margin-bottom: 14px; 
-      color: #444444; 
-      border-bottom: 2px solid #eeeeee; 
-      padding-bottom: 6px; 
-    }
-    
-    /* Form groups & inputs */
-    .form-group { 
-      display: flex; 
-      flex-direction: column; 
-      gap: 5px; 
+    * {
+      box-sizing: border-box;
     }
 
-    label { 
-      font-size: 0.8rem; 
-      font-weight: 600; 
-      color: #555555; 
+    body {
+      margin: 0;
+      padding: 26px 14px 40px;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, #d8effb, transparent 38%),
+        linear-gradient(180deg, #eaf4fb, #edf3f8);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont,
+        "Segoe UI", Roboto, Arial, sans-serif;
+    }
+
+    button, input, select {
+      font: inherit;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: clamp(16px, 3vw, 34px);
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      box-shadow: 0 15px 45px rgba(29, 57, 82, 0.08);
+    }
+
+    .page-header {
+      padding-bottom: 24px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .eyebrow {
+      margin: 0 0 10px;
+      color: var(--blue-dark);
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 1.2px;
       text-transform: uppercase;
-      letter-spacing: 0.3px;
     }
 
-    input, select { 
-      padding: 9px 12px; 
-      border: 1px solid #d1d5db; 
-      border-radius: 6px; 
-      font-size: 0.9rem; 
-      background-color: #fafafa;
-      transition: all 0.2s ease;
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(1.6rem, 4vw, 2.35rem);
+      line-height: 1.2;
+      letter-spacing: -0.8px;
     }
 
-    input:focus, select:focus { 
-      border-color: #19BDF2; 
-      background-color: #ffffff;
-      outline: none; 
-      box-shadow: 0 0 0 3px rgba(25, 189, 242, 0.15);
+    .title-accent {
+      color: var(--blue-dark);
     }
 
-    /* 1. Dados Gerais + Antropometria Básica */
-    .dados-gerais-grid { 
-      display: grid; 
-      grid-template-columns: 2fr 0.8fr 1fr 1.5fr 1fr 1fr; 
-      gap: 12px; 
-      margin-bottom: 24px; 
+    .description {
+      max-width: 760px;
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.93rem;
+      line-height: 1.7;
     }
 
-    /* 2 e 3. Duas Colunas: Perimetria + Dobras Cutâneas */
-    .medidas-container { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 24px; 
-      margin-bottom: 24px; 
+    .section {
+      min-width: 0;
+      margin-bottom: 20px;
+      padding: clamp(14px, 2.5vw, 23px);
+      background: #fcfdff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
     }
 
-    .sub-grid { 
-      display: grid; 
-      grid-template-columns: 1fr 1fr; 
-      gap: 10px; 
+    .section-heading {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 20px;
+    }
+
+    .section-number {
+      display: flex;
+      flex: 0 0 38px;
+      width: 38px;
+      height: 38px;
+      align-items: center;
+      justify-content: center;
+      color: var(--blue-dark);
+      background: var(--blue-light);
+      border: 1px solid #c8e8f8;
+      border-radius: 10px;
+      font-weight: 800;
+    }
+
+    .section-heading h2 {
+      margin: 2px 0 5px;
+      font-size: 1rem;
+    }
+
+    .section-heading p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.81rem;
+      line-height: 1.6;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 15px 13px;
+    }
+
+    .general-grid {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .field {
+      display: flex;
+      min-width: 0;
+      flex-direction: column;
+      gap: 7px;
+    }
+
+    .span-2 {
+      grid-column: span 2;
+    }
+
+    label {
+      color: #45576b;
+      font-size: 0.77rem;
+      font-weight: 750;
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-width: 0;
+      min-height: 44px;
+      padding: 10px 12px;
+      color: var(--text);
+      background: #fff;
+      border: 1px solid #cbd8e4;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    input::placeholder {
+      color: #99a7b6;
+    }
+
+    input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--blue-dark);
+      box-shadow: 0 0 0 3px rgba(66, 185, 232, 0.17);
+    }
+
+    .hint,
+    .privacy-note,
+    .footer-note {
+      color: var(--muted);
+      font-size: 0.77rem;
+      line-height: 1.65;
+    }
+
+    .hint {
+      margin: 0;
+    }
+
+    .note {
+      margin: 16px 0 0;
+      padding: 12px 14px;
+      color: #53677d;
+      background: #f1f7fb;
+      border: 1px solid #e0ebf3;
+      border-radius: 9px;
+      font-size: 0.78rem;
+      line-height: 1.65;
+    }
+
+    .measurements-layout {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 18px;
+      align-items: start;
+    }
+
+    .measurements-layout .section {
+      height: 100%;
     }
 
     .dual-input {
-      display: flex;
-      gap: 4px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
     }
 
     .dual-input input {
-      width: 50%;
+      min-width: 0;
     }
 
-    /* 4. Upload de Foto */
-    .upload-box { 
-      border: 2px dashed #cbd5e1; 
-      border-radius: 8px; 
-      padding: 24px; 
-      text-align: center; 
-      background: #f8fafc; 
-      cursor: pointer; 
-      transition: all 0.2s ease;
+    .upload-intro {
+      margin: 0 0 16px;
+      padding: 13px;
+      color: #355b73;
+      background: #edf8fe;
+      border: 1px solid #cfeaf8;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      line-height: 1.6;
     }
 
-    .upload-box:hover { 
-      border-color: #19BDF2; 
-      background: #f0f9ff; 
+    .photo-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 13px;
     }
 
-    .upload-box p {
-      font-size: 0.85rem;
-      color: #64748b;
+    .photo-card {
+      min-width: 0;
+      padding: 13px;
+      background: #f7fbfe;
+      border: 1px solid var(--border);
+      border-radius: 11px;
+    }
+
+    .photo-card h3 {
+      margin: 0 0 6px;
+      font-size: 0.88rem;
+    }
+
+    .photo-card p {
+      min-height: 48px;
+      margin: 0 0 12px;
+      color: var(--muted);
+      font-size: 0.75rem;
+      line-height: 1.6;
+    }
+
+    input[type="file"] {
+      min-height: 0;
+      padding: 7px;
+      font-size: 0.74rem;
+      background: white;
+    }
+
+    input[type="file"]::file-selector-button {
+      margin-right: 7px;
+      padding: 8px 10px;
+      color: var(--blue-dark);
+      background: var(--blue-light);
+      border: 0;
+      border-radius: 6px;
+      font-size: 0.73rem;
+      font-weight: 750;
+      cursor: pointer;
+    }
+
+    .preview {
+      margin-top: 12px;
+      padding: 8px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+    }
+
+    .preview[hidden] {
+      display: none;
+    }
+
+    .preview img {
+      display: block;
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: #edf2f6;
+      border-radius: 6px;
+    }
+
+    .preview-name {
+      margin: 7px 0 0 !important;
+      min-height: 0 !important;
+      overflow-wrap: anywhere;
+      font-size: 0.69rem !important;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 46px;
+      padding: 12px 17px;
+      border: 1px solid transparent;
+      border-radius: 9px;
+      font-size: 0.87rem;
+      font-weight: 800;
+      text-align: center;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+    }
+
+    .btn:focus-visible {
+      outline: 3px solid var(--blue-dark);
+      outline-offset: 3px;
+    }
+
+    .btn-primary {
+      width: 100%;
+      min-height: 52px;
+      color: #07334b;
+      background: var(--blue);
+      box-shadow: 0 5px 15px rgba(14, 165, 233, 0.15);
+    }
+
+    .btn-primary:hover {
+      background: #61c9ee;
+    }
+
+    .btn-secondary {
+      color: #075985;
+      background: #eaf6fc;
+      border-color: #c9e8f7;
+    }
+
+    .btn-secondary:hover {
+      background: #d9f0fc;
+    }
+
+    .btn-quiet {
+      color: #475569;
+      background: #fff;
+      border-color: #d3dee8;
+    }
+
+    .status {
+      margin: 13px 0 0;
+      padding: 12px 14px;
+      border: 1px solid #c7eafd;
+      border-radius: 9px;
+      color: #075985;
+      background: #eff9ff;
+      font-size: 0.83rem;
+      line-height: 1.6;
+    }
+
+    .status[hidden] {
+      display: none;
+    }
+
+    .status.error {
+      color: #991b1b;
+      background: #fff1f1;
+      border-color: #fecaca;
+    }
+
+    .example-panel {
+      margin-top: 26px;
+      padding: 20px;
+      background: linear-gradient(135deg, #f5faff, #edf7fc);
+      border: 1px solid #d2e8f5;
+      border-radius: 15px;
+    }
+
+    .demo-label {
+      display: inline-block;
       margin-bottom: 10px;
+      padding: 6px 9px;
+      color: #854d0e;
+      background: #fff7e5;
+      border: 1px solid #f5d99a;
+      border-radius: 6px;
+      font-size: 0.69rem;
+      font-weight: 800;
+      text-transform: uppercase;
     }
 
-    /* Botão Principal */
-    .btn-submit { 
-      width: 100%; 
-      padding: 14px; 
-      background: #171717; 
-      color: #ffffff; 
-      font-weight: 700; 
-      font-size: 1rem; 
-      border: none; 
-      border-radius: 8px; 
-      cursor: pointer; 
-      margin-top: 24px; 
-      transition: background-color 0.2s ease; 
+    .example-panel h2 {
+      margin: 0 0 8px;
+      font-size: 1.05rem;
     }
 
-    .btn-submit:hover { 
-      background: #333333; 
+    .example-panel > p {
+      margin: 0 0 15px;
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.6;
     }
 
-    /* Responsividade */
-    @media (max-width: 768px) {
-      .dados-gerais-grid {
-        grid-template-columns: 1fr 1fr;
+    .example-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .example-item {
+      padding: 13px;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+    }
+
+    .example-item h3 {
+      margin: 0 0 7px;
+      font-size: 0.83rem;
+    }
+
+    .example-item p {
+      margin: 0;
+      color: #54697c;
+      font-size: 0.77rem;
+      line-height: 1.65;
+    }
+
+    /* RELATÓRIO */
+
+    .report {
+      margin-top: 28px;
+      padding: 25px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    .report[hidden] {
+      display: none;
+    }
+
+    .report-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 15px;
+      padding-bottom: 17px;
+      border-bottom: 2px solid #dceaf4;
+    }
+
+    .report-brand {
+      margin: 0 0 6px;
+      color: var(--blue-dark);
+      font-size: 0.68rem;
+      font-weight: 850;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .report-header h2 {
+      margin: 0 0 7px;
+      font-size: clamp(1.2rem, 3vw, 1.6rem);
+    }
+
+    .report-subtitle {
+      margin: 0;
+      color: var(--muted);
+      font-size: 0.8rem;
+      line-height: 1.6;
+    }
+
+    .report-date {
+      flex-shrink: 0;
+      padding: 8px 10px;
+      color: #536b7f;
+      background: #f3f8fc;
+      border: 1px solid #dfeaf2;
+      border-radius: 8px;
+      font-size: 0.73rem;
+    }
+
+    .report-warning {
+      margin: 17px 0;
+      padding: 13px 14px;
+      color: #784c10;
+      background: #fff8e7;
+      border: 1px solid #f4dfae;
+      border-radius: 9px;
+      font-size: 0.81rem;
+      line-height: 1.7;
+    }
+
+    .report-block {
+      margin-top: 22px;
+      break-inside: avoid;
+    }
+
+    .report-block h3 {
+      margin: 0 0 12px;
+      padding-bottom: 8px;
+      color: #23465d;
+      border-bottom: 1px solid #dfe9f1;
+      font-size: 0.85rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+    }
+
+    .report-metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .metric-card {
+      min-width: 0;
+      padding: 12px;
+      background: #f5faff;
+      border: 1px solid #deebf5;
+      border-radius: 9px;
+      overflow-wrap: anywhere;
+    }
+
+    .metric-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.7rem;
+      line-height: 1.5;
+    }
+
+    .metric-value {
+      display: block;
+      font-size: 1rem;
+      font-weight: 850;
+    }
+
+    .metric-unit {
+      color: var(--muted);
+      font-size: 0.69rem;
+      line-height: 1.5;
+    }
+
+    .report-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    .report-table th,
+    .report-table td {
+      padding: 9px 10px;
+      border-bottom: 1px solid #e6edf3;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .report-table th {
+      color: #52677a;
+      background: #f7fafc;
+      font-size: 0.72rem;
+    }
+
+    .report-table td:last-child,
+    .report-table th:last-child {
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+
+    .report-panel {
+      padding: 15px;
+      color: #35556b;
+      background: #eef8fd;
+      border: 1px solid #cfe8f5;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      line-height: 1.75;
+    }
+
+    .report-photos {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .report-photo-card {
+      min-width: 0;
+      padding: 8px;
+      border: 1px solid #dfe8f0;
+      border-radius: 9px;
+      break-inside: avoid;
+    }
+
+    .report-photo-card img {
+      display: block;
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      background: #f0f4f7;
+      border-radius: 6px;
+    }
+
+    .report-photo-card p {
+      margin: 7px 0 0;
+      color: #52677a;
+      font-size: 0.7rem;
+      overflow-wrap: anywhere;
+    }
+
+    .report-note {
+      margin-top: 16px;
+      padding: 12px;
+      color: #64748b;
+      background: #f8fafc;
+      border-radius: 8px;
+      font-size: 0.73rem;
+      line-height: 1.7;
+    }
+
+    .report-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 22px;
+    }
+
+    .report-actions .btn {
+      flex: 1 1 190px;
+    }
+
+    .footer-note {
+      margin: 22px 0 0;
+      text-align: center;
+      font-size: 0.72rem;
+    }
+
+    @media (max-width: 900px) {
+      .general-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
       }
-      .medidas-container {
+
+      .photo-grid,
+      .example-grid {
         grid-template-columns: 1fr;
+      }
+
+      .photo-card p {
+        min-height: 0;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .measurements-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .measurements-layout .section {
+        height: auto;
+      }
+
+      .report-metrics {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 560px) {
+      body {
+        padding: 9px;
+      }
+
+      .container {
+        padding: 15px 11px;
+      }
+
+      .section {
+        padding: 14px 11px;
+      }
+
+      .report {
+        padding: 13px;
+      }
+
+      .report-header {
+        flex-direction: column;
+      }
+
+      .report-photos {
+        grid-template-columns: 1fr;
+      }
+
+      .report-photo-card img {
+        height: 200px;
+      }
+    }
+
+    @media (max-width: 360px) {
+      .general-grid,
+      .grid {
+        grid-template-columns: 1fr;
+      }
+
+      .span-2 {
+        grid-column: auto;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4;
+        margin: 12mm;
+      }
+
+      body {
+        padding: 0 !important;
+        background: white !important;
+        color: #111827;
+      }
+
+      .container {
+        max-width: none;
+        padding: 0;
+        border: 0;
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      .no-print,
+      #evalForm,
+      .example-panel,
+      .footer-note,
+      .report-actions {
+        display: none !important;
+      }
+
+      .report[hidden] {
+        display: block !important;
+      }
+
+      .report {
+        display: block !important;
+        margin: 0;
+        padding: 0;
+        border: 0;
+      }
+
+      .report-block {
+        break-inside: avoid;
+      }
+
+      .report-warning,
+      .report-panel,
+      .metric-card,
+      .report-table th,
+      .report-note {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+
+      .report-photo-card img {
+        max-height: 130px;
       }
     }
   </style>
 </head>
+
 <body>
+  <main class="container">
 
-<div class="container">
-  <h2>Avaliação Física & Análise Postural</h2>
+    <header class="page-header no-print">
+      <p class="eyebrow">● Ferramenta de avaliação profissional</p>
 
-  <form id="evalForm">
-    <!-- 1. DADOS GERAIS DO ALUNO + ANTROPOMETRIA BÁSICA -->
-    <div class="section-title">1. Dados do Aluno & Antropometria Básica</div>
-    <div class="dados-gerais-grid">
-      <div class="form-group">
-        <label>Nome Completo</label>
-        <input type="text" name="nome" placeholder="Ex: João Silva" required>
-      </div>
-      <div class="form-group">
-        <label>Idade</label>
-        <input type="number" name="idade" placeholder="Ex: 30" min="10" max="100" required>
-      </div>
-      <div class="form-group">
-        <label>Sexo</label>
-        <select name="sexo" required>
-          <option value="M">Masc</option>
-          <option value="F">Fem</option>
-        </select>
-      </div>
-      <div class="form-group">
-        <label>Objetivo</label>
-        <input type="text" name="objetivo" placeholder="Hipertrofia / Postura">
-      </div>
-      <div class="form-group">
-        <label>Peso (kg)</label>
-        <input type="number" name="peso" step="0.1" placeholder="75.5" required>
-      </div>
-      <div class="form-group">
-        <label>Altura (cm)</label>
-        <input type="number" name="altura" placeholder="175" required>
-      </div>
-    </div>
+      <h1>
+        Avaliação Física
+        <span class="title-accent">& Análise Postural</span>
+      </h1>
 
-    <!-- 2 E 3. PERIMETRIA E DOBRAS CUTÂNEAS (LADO A LADO) -->
-    <div class="medidas-container">
-      
-      <!-- Coluna Esquerda: Perimetria -->
-      <div>
-        <div class="section-title">2. Perimetria (cm)</div>
-        <div class="sub-grid">
-          <div class="form-group">
-            <label>Tórax</label>
-            <input type="number" name="perim_torax" step="0.1" placeholder="98.0">
-          </div>
-          <div class="form-group">
-            <label>Cintura</label>
-            <input type="number" name="perim_cintura" step="0.1" placeholder="80.0">
-          </div>
-          <div class="form-group">
-            <label>Abdômen</label>
-            <input type="number" name="perim_abdomen" step="0.1" placeholder="84.0">
-          </div>
-          <div class="form-group">
-            <label>Quadril</label>
-            <input type="number" name="perim_quadril" step="0.1" placeholder="100.0">
-          </div>
-          <div class="form-group">
-            <label>Braço Dir / Esq</label>
-            <div class="dual-input">
-              <input type="number" name="perim_braco_d" step="0.1" placeholder="D">
-              <input type="number" name="perim_braco_e" step="0.1" placeholder="E">
-            </div>
-          </div>
-          <div class="form-group">
-            <label>Coxa Dir / Esq</label>
-            <div class="dual-input">
-              <input type="number" name="perim_coxa_d" step="0.1" placeholder="D">
-              <input type="number" name="perim_coxa_e" step="0.1" placeholder="E">
-            </div>
+      <p class="description">
+        Registre medidas antropométricas, dobras cutâneas e fotografias
+        para organizar os dados em um relatório de avaliação física.
+      </p>
+    </header>
+
+    <form id="evalForm" class="no-print">
+
+      <!-- 1. DADOS GERAIS -->
+
+      <section class="section">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div>
+            <h2>Dados do aluno</h2>
+            <p>Informações básicas para contextualizar os resultados.</p>
           </div>
         </div>
-      </div>
 
-      <!-- Coluna Direita: Dobras Cutâneas (Adipômetro - Jackson & Pollock 7 Dobras) -->
-      <div>
-        <div class="section-title">3. Dobras Cutâneas - Adipômetro (mm)</div>
-        <div class="sub-grid">
-          <div class="form-group">
-            <label>Tricipital</label>
-            <input type="number" name="dobra_triceps" step="0.1" placeholder="12.0">
+        <div class="grid general-grid">
+          <div class="field span-2">
+            <label for="nome">Nome completo</label>
+            <input id="nome" name="nome" type="text"
+              placeholder="Ex.: João Silva" maxlength="120" required>
           </div>
-          <div class="form-group">
-            <label>Subescapular</label>
-            <input type="number" name="dobra_subescapular" step="0.1" placeholder="15.0">
+
+          <div class="field">
+            <label for="idade">Idade (anos)</label>
+            <input id="idade" name="idade" type="number"
+              min="18" max="61" step="1" placeholder="30" required>
           </div>
-          <div class="form-group">
-            <label>Peitoral</label>
-            <input type="number" name="dobra_peitoral" step="0.1" placeholder="8.0">
+
+          <div class="field">
+            <label for="sexo">Sexo para seleção da equação</label>
+            <select id="sexo" name="sexo" required>
+              <option value="" selected disabled>Selecione</option>
+              <option value="M">Masculino</option>
+              <option value="F">Feminino</option>
+            </select>
           </div>
-          <div class="form-group">
-            <label>Axilar Média</label>
-            <input type="number" name="dobra_axilar" step="0.1" placeholder="10.0">
+
+          <div class="field span-2">
+            <label for="objetivo">Objetivo principal</label>
+            <input id="objetivo" name="objetivo" type="text"
+              placeholder="Hipertrofia, emagrecimento, qualidade de vida..."
+              maxlength="160">
           </div>
-          <div class="form-group">
-            <label>Supra-ilíaca</label>
-            <input type="number" name="dobra_suprailiaca" step="0.1" placeholder="18.0">
+
+          <div class="field">
+            <label for="peso">Peso (kg)</label>
+            <input id="peso" name="peso" type="number"
+              min="1" max="350" step="0.1" placeholder="75.5" required>
           </div>
-          <div class="form-group">
-            <label>Abdominal</label>
-            <input type="number" name="dobra_abdominal" step="0.1" placeholder="22.0">
-          </div>
-          <div class="form-group" style="grid-column: span 2;">
-            <label>Coxa</label>
-            <input type="number" name="dobra_coxa" step="0.1" placeholder="14.0">
+
+          <div class="field">
+            <label for="altura">Altura (cm)</label>
+            <input id="altura" name="altura" type="number"
+              min="50" max="250" step="0.1" placeholder="175" required>
           </div>
         </div>
+
+        <p class="note">
+          A equação de Jackson & Pollock de 7 dobras tem faixas de referência
+          específicas: homens de 18 a 61 anos e mulheres de 18 a 55 anos.
+          A seleção do protocolo deve ser adequada à população avaliada.
+        </p>
+      </section>
+
+      <div class="measurements-layout">
+
+        <!-- 2. PERIMETRIA -->
+
+        <section class="section">
+          <div class="section-heading">
+            <span class="section-number">02</span>
+            <div>
+              <h2>Perimetria (cm)</h2>
+              <p>Circunferências corporais.</p>
+            </div>
+          </div>
+
+          <div class="grid">
+
+            <div class="field">
+              <label for="perim_ombro">Ombros</label>
+              <input id="perim_ombro" name="perim_ombro"
+                type="number" min="10" max="250" step="0.1"
+                placeholder="110.0">
+            </div>
+
+            <div class="field">
+              <label for="perim_torax">Tórax</label>
+              <input id="perim_torax" name="perim_torax"
+                type="number" min="10" max="250" step="0.1"
+                placeholder="98.0">
+            </div>
+
+            <div class="field">
+              <label for="perim_cintura">Cintura</label>
+              <input id="perim_cintura" name="perim_cintura"
+                type="number" min="10" max="250" step="0.1"
+                placeholder="80.0">
+            </div>
+
+            <div class="field">
+              <label for="perim_abdomen">Abdômen</label>
+              <input id="perim_abdomen" name="perim_abdomen"
+                type="number" min="10" max="250" step="0.1"
+                placeholder="84.0">
+            </div>
+
+            <div class="field">
+              <label for="perim_quadril">Quadril</label>
+              <input id="perim_quadril" name="perim_quadril"
+                type="number" min="10" max="250" step="0.1"
+                placeholder="100.0">
+            </div>
+
+            <div class="field">
+              <label>Braços (cm)</label>
+              <div class="dual-input">
+                <input aria-label="Braço direito em centímetros"
+                  id="perim_braco_d" name="perim_braco_d"
+                  type="number" min="10" max="100" step="0.1"
+                  placeholder="Direito">
+                <input aria-label="Braço esquerdo em centímetros"
+                  id="perim_braco_e" name="perim_braco_e"
+                  type="number" min="10" max="100" step="0.1"
+                  placeholder="Esquerdo">
+              </div>
+            </div>
+
+            <div class="field">
+              <label>Coxas (cm)</label>
+              <div class="dual-input">
+                <input aria-label="Coxa direita em centímetros"
+                  id="perim_coxa_d" name="perim_coxa_d"
+                  type="number" min="10" max="150" step="0.1"
+                  placeholder="Direita">
+                <input aria-label="Coxa esquerda em centímetros"
+                  id="perim_coxa_e" name="perim_coxa_e"
+                  type="number" min="10" max="150" step="0.1"
+                  placeholder="Esquerda">
+              </div>
+            </div>
+
+          </div>
+
+          <p class="note">
+            Registre todas as medidas utilizando os mesmos pontos anatômicos
+            e a mesma técnica de mensuração em avaliações futuras.
+            Para a circunferência dos ombros, mantenha um protocolo de medida
+            padronizado.
+          </p>
+        </section>
+
+        <!-- 3. DOBRAS CUTÂNEAS -->
+
+        <section class="section">
+          <div class="section-heading">
+            <span class="section-number">03</span>
+            <div>
+              <h2>Dobras cutâneas (mm)</h2>
+              <p>Protocolo de Jackson & Pollock — 7 dobras.</p>
+            </div>
+          </div>
+
+          <div class="grid">
+
+            <div class="field">
+              <label for="dobra_triceps">Tricipital</label>
+              <input id="dobra_triceps" name="dobra_triceps"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="12.0" required>
+            </div>
+
+            <div class="field">
+              <label for="dobra_subescapular">Subescapular</label>
+              <input id="dobra_subescapular" name="dobra_subescapular"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="15.0" required>
+            </div>
+
+            <div class="field">
+              <label for="dobra_peitoral">Peitoral</label>
+              <input id="dobra_peitoral" name="dobra_peitoral"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="8.0" required>
+            </div>
+
+            <div class="field">
+              <label for="dobra_axilar">Axilar média</label>
+              <input id="dobra_axilar" name="dobra_axilar"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="10.0" required>
+            </div>
+
+            <div class="field">
+              <label for="dobra_suprailiaca">Supra-ilíaca</label>
+              <input id="dobra_suprailiaca" name="dobra_suprailiaca"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="18.0" required>
+            </div>
+
+            <div class="field">
+              <label for="dobra_abdominal">Abdominal</label>
+              <input id="dobra_abdominal" name="dobra_abdominal"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="22.0" required>
+            </div>
+
+            <div class="field span-2">
+              <label for="dobra_coxa">Coxa</label>
+              <input id="dobra_coxa" name="dobra_coxa"
+                type="number" min="1" max="100" step="0.1"
+                placeholder="14.0" required>
+            </div>
+
+          </div>
+
+          <p class="note">
+            O percentual de gordura será estimado matematicamente a partir
+            da densidade corporal. A técnica de coleta influencia o resultado.
+          </p>
+        </section>
       </div>
 
-    </div>
+      <!-- 4. FOTOGRAFIAS -->
 
-    <!-- 4. ANÁLISE POSTURAL POR FOTO -->
-    <div class="section-title">4. Análise Postural (IA)</div>
-    <div class="upload-box">
-      <p>Envie a foto do aluno em postura anatômica (vista frontal ou lateral)</p>
-      <input type="file" id="fotoAluno" name="foto" accept="image/*" required>
-    </div>
+      <section class="section">
+        <div class="section-heading">
+          <span class="section-number">04</span>
+          <div>
+            <h2>Fotografias para triagem postural</h2>
+            <p>Selecione pelo menos uma vista do aluno.</p>
+          </div>
+        </div>
 
-    <button type="submit" class="btn-submit">Processar e Gerar Avaliação Completa</button>
-  </form>
-</div>
+        <p class="upload-intro">
+          <strong>Orientação:</strong> fotografe o corpo inteiro, com boa
+          iluminação, fundo simples e câmera aproximadamente na altura do tronco.
+          Sempre que possível, mantenha a mesma distância nas diferentes vistas.
+        </p>
 
+        <div class="photo-grid">
+
+          <div class="photo-card">
+            <h3>Vista frontal</h3>
+            <p>Para observar alinhamentos aparentes de ombros, pelve, joelhos e pés.</p>
+            <label for="fotoFrontal">Selecionar foto frontal</label>
+            <input type="file" id="fotoFrontal" name="foto_frontal"
+              accept="image/jpeg,image/png,image/webp" data-view="Frontal">
+            <div class="preview" id="previewFrontal" hidden>
+              <img id="imgFrontal" alt="Prévia da foto frontal">
+              <p class="preview-name" id="nomeFrontal"></p>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <h3>Vista lateral</h3>
+            <p>Para contextualizar o perfil do tronco, cabeça e curvas aparentes da coluna.</p>
+            <label for="fotoLateral">Selecionar foto lateral</label>
+            <input type="file" id="fotoLateral" name="foto_lateral"
+              accept="image/jpeg,image/png,image/webp" data-view="Lateral">
+            <div class="preview" id="previewLateral" hidden>
+              <img id="imgLateral" alt="Prévia da foto lateral">
+              <p class="preview-name" id="nomeLateral"></p>
+            </div>
+          </div>
+
+          <div class="photo-card">
+            <h3>Vista posterior</h3>
+            <p>Para observar assimetrias aparentes de ombros, escápulas e pelve.</p>
+            <label for="fotoPosterior">Selecionar foto posterior</label>
+            <input type="file" id="fotoPosterior" name="foto_posterior"
+              accept="image/jpeg,image/png,image/webp" data-view="Posterior">
+            <div class="preview" id="previewPosterior" hidden>
+              <img id="imgPosterior" alt="Prévia da foto posterior">
+              <p class="preview-name" id="nomePosterior"></p>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="hint" style="margin-top: 12px;">
+          Formatos permitidos: JPG, PNG e WEBP. Limite de 10 MB por imagem.
+        </p>
+
+        <p class="privacy-note">
+          Esta versão mantém as imagens localmente no navegador e não as envia
+          para uma IA ou servidor. Utilize fotografias com autorização apropriada
+          do aluno e proteja os dados pessoais e de saúde.
+        </p>
+      </section>
+
+      <button type="submit" class="btn btn-primary">
+        Gerar relatório da avaliação
+      </button>
+
+      <p id="formStatus" class="status" role="status" aria-live="polite" hidden></p>
+    </form>
+
+    <!-- EXEMPLO ILUSTRATIVO -->
+
+    <section class="example-panel no-print">
+      <span class="demo-label">Exemplo ilustrativo — não é um resultado real</span>
+      <h2>Como ficará a análise postural com IA</h2>
+      <p>
+        Esta seção demonstra o formato esperado depois da integração com o backend.
+        As observações abaixo não foram geradas pelas fotos do aluno.
+      </p>
+
+      <div class="example-grid">
+        <article class="example-item">
+          <h3>1. Observação visual</h3>
+          <p>
+            Possível medialização dos joelhos em uma vista frontal.
+            O achado precisaria ser confirmado por avaliação funcional.
+          </p>
+        </article>
+
+        <article class="example-item">
+          <h3>2. Fatores a investigar</h3>
+          <p>
+            Controle neuromuscular do quadril, mobilidade do tornozelo e
+            estratégia de movimento. A fotografia não confirma fraqueza muscular.
+          </p>
+        </article>
+
+        <article class="example-item">
+          <h3>3. Possíveis próximos passos</h3>
+          <p>
+            Avaliar agachamento ou step-down, verificar mobilidade e considerar
+            exercícios de controle unilateral, conforme os resultados encontrados.
+          </p>
+        </article>
+      </div>
+    </section>
+
+    <!-- RELATÓRIO -->
+
+    <section id="report" class="report" hidden>
+
+      <header class="report-header">
+        <div>
+          <p class="report-brand">Relatório de avaliação física</p>
+          <h2>Avaliação Física & Análise Postural</h2>
+          <p class="report-subtitle" id="reportSubtitle"></p>
+        </div>
+        <div class="report-date" id="reportDate"></div>
+      </header>
+
+      <div class="report-warning">
+        <strong>Importante:</strong> este relatório reúne os dados informados
+        e estimativas antropométricas. A análise de imagens por IA ainda não
+        está conectada nesta versão. Nenhuma disfunção postural foi diagnosticada
+        ou inferida pelas fotografias.
+      </div>
+
+      <section class="report-block">
+        <h3>Resumo do aluno</h3>
+
+        <div class="report-metrics">
+          <div class="metric-card">
+            <span class="metric-label">Aluno</span>
+            <strong class="metric-value" id="rNome">—</strong>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Idade</span>
+            <strong class="metric-value" id="rIdade">—</strong>
+            <span class="metric-unit">anos</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Peso</span>
+            <strong class="metric-value" id="rPeso">—</strong>
+            <span class="metric-unit">kg</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Altura</span>
+            <strong class="metric-value" id="rAltura">—</strong>
+            <span class="metric-unit">cm</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Gordura corporal estimada</span>
+            <strong class="metric-value" id="rGordura">—</strong>
+            <span class="metric-unit">% · equação de 7 dobras</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Massa gorda estimada</span>
+            <strong class="metric-value" id="rMassaGorda">—</strong>
+            <span class="metric-unit">kg</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">Massa livre de gordura</span>
+            <strong class="metric-value" id="rMassaMagra">—</strong>
+            <span class="metric-unit">kg</span>
+          </div>
+
+          <div class="metric-card">
+            <span class="metric-label">IMC</span>
+            <strong class="metric-value" id="rIMC">—</strong>
+            <span class="metric-unit">kg/m² · referência complementar</span>
+          </div>
+        </div>
+
+        <p class="note" id="rObjetivo"></p>
+      </section>
+
+      <section class="report-block">
+        <h3>Perimetria (cm)</h3>
+        <table class="report-table">
+          <thead>
+            <tr><th>Medida</th><th>Valor</th></tr>
+          </thead>
+          <tbody id="rPerimetria"></tbody>
+        </table>
+      </section>
+
+      <section class="report-block">
+        <h3>Dobras cutâneas (mm)</h3>
+        <table class="report-table">
+          <thead>
+            <tr><th>Ponto anatômico</th><th>Valor</th></tr>
+          </thead>
+          <tbody id="rDobras"></tbody>
+        </table>
+        <p class="note" id="rSomaDobras"></p>
+      </section>
+
+      <section class="report-block">
+        <h3>1. Observações visuais</h3>
+        <div class="report-panel">
+          <strong>Análise por IA pendente.</strong><br>
+          A observação automatizada das imagens só poderá ser exibida depois
+          que o backend e um modelo de visão computacional forem integrados.
+          Uma fotografia estática não confirma, por si só, uma disfunção.
+        </div>
+      </section>
+
+      <section class="report-block">
+        <h3>2. Fatores biomecânicos a investigar</h3>
+        <div class="report-panel">
+          Os fatores relacionados aos achados deverão ser tratados como hipóteses
+          até serem verificados por anamnese e testes funcionais. A imagem isolada
+          não permite afirmar fraqueza do glúteo médio, encurtamentos ou outras
+          causas musculares.
+        </div>
+      </section>
+
+      <section class="report-block">
+        <h3>3. Plano de ação sugerido</h3>
+        <div class="report-panel">
+          Depois da integração com a IA, esta seção poderá apresentar exercícios,
+          séries, repetições, progressões e alternativas para revisão do
+          profissional responsável. Nenhum treino individualizado foi gerado
+          nesta prévia.
+        </div>
+      </section>
+
+      <section class="report-block">
+        <h3>4. Dica do profissional</h3>
+        <div class="report-panel">
+          A recomendação final deverá considerar sintomas, histórico do aluno,
+          testes funcionais, capacidade atual e resposta ao exercício.
+        </div>
+      </section>
+
+      <section class="report-block">
+        <h3>Fotografias anexadas</h3>
+        <div class="report-photos" id="rFotos"></div>
+      </section>
+
+      <p class="report-note">
+        <strong>Metodologia:</strong> a estimativa do percentual de gordura
+        utiliza uma equação de densidade corporal por sete dobras cutâneas
+        e a conversão de Siri. A qualidade da coleta e a adequação da equação
+        influenciam o resultado. O IMC não distingue massa muscular de massa
+        gorda. Confirme a validade do protocolo para a população avaliada.
+      </p>
+
+      <p class="report-note">
+        Relatório preliminar gerado no navegador. A interpretação dos dados
+        e as decisões sobre exercício devem ser revisadas pelo profissional
+        responsável.
+      </p>
+
+      <div class="report-actions no-print">
+        <button type="button" class="btn btn-primary" id="printBtn">
+          Imprimir / Salvar PDF
+        </button>
+
+        <button type="button" class="btn btn-secondary" id="newEvalBtn">
+          Nova avaliação
+        </button>
+      </div>
+    </section>
+
+    <p class="footer-note no-print">
+      Protótipo de avaliação física · Dados não são enviados a um servidor nesta versão.
+    </p>
+
+  </main>
+
+  <script>
+    (() => {
+      "use strict";
+
+      const form = document.getElementById("evalForm");
+      const ageInput = document.getElementById("idade");
+      const sexSelect = document.getElementById("sexo");
+      const status = document.getElementById("formStatus");
+      const report = document.getElementById("report");
+
+      const MAX_FILE_SIZE = 10 * 1024 * 1024;
+      const ALLOWED_TYPES = [
+        "image/jpeg",
+        "image/png",
+        "image/webp"
+      ];
+
+      const photos = [
+        {
+          input: "fotoFrontal",
+          preview: "previewFrontal",
+          image: "imgFrontal",
+          name: "nomeFrontal",
+          label: "Vista frontal"
+        },
+        {
+          input: "fotoLateral",
+          preview: "previewLateral",
+          image: "imgLateral",
+          name: "nomeLateral",
+          label: "Vista lateral"
+        },
+        {
+          input: "fotoPosterior",
+          preview: "previewPosterior",
+          image: "imgPosterior",
+          name: "nomePosterior",
+          label: "Vista posterior"
+        }
+      ];
+
+      const objectUrls = new Map();
+
+      const perimetry = [
+        ["Ombros", "perim_ombro"],
+        ["Tórax", "perim_torax"],
+        ["Cintura", "perim_cintura"],
+        ["Abdômen", "perim_abdomen"],
+        ["Quadril", "perim_quadril"],
+        ["Braço direito", "perim_braco_d"],
+        ["Braço esquerdo", "perim_braco_e"],
+        ["Coxa direita", "perim_coxa_d"],
+        ["Coxa esquerda", "perim_coxa_e"]
+      ];
+
+      const skinfolds = [
+        ["Tricipital", "dobra_triceps"],
+        ["Subescapular", "dobra_subescapular"],
+        ["Peitoral", "dobra_peitoral"],
+        ["Axilar média", "dobra_axilar"],
+        ["Supra-ilíaca", "dobra_suprailiaca"],
+        ["Abdominal", "dobra_abdominal"],
+        ["Coxa", "dobra_coxa"]
+      ];
+
+      function numericValue(id) {
+        const element = document.getElementById(id);
+
+        if (!element || element.value.trim() === "") {
+          return null;
+        }
+
+        const value = Number(element.value);
+        return Number.isFinite(value) ? value : null;
+      }
+
+      function formatNumber(value, digits = 1) {
+        if (value === null || !Number.isFinite(value)) {
+          return "Não informado";
+        }
+
+        return new Intl.NumberFormat("pt-BR", {
+          minimumFractionDigits: digits,
+          maximumFractionDigits: digits
+        }).format(value);
+      }
+
+      function setText(id, value) {
+        document.getElementById(id).textContent = value;
+      }
+
+      function showStatus(message, isError = false) {
+        status.textContent = message;
+        status.classList.toggle("error", isError);
+        status.hidden = false;
+      }
+
+      function clearStatus() {
+        status.hidden = true;
+        status.textContent = "";
+        status.classList.remove("error");
+      }
+
+      function validateAge() {
+        ageInput.setCustomValidity("");
+
+        const age = numericValue("idade");
+        const sex = sexSelect.value;
+
+        ageInput.max = sex === "F" ? "55" : "61";
+
+        if (age === null || !sex) {
+          return;
+        }
+
+        const maxAge = sex === "F" ? 55 : 61;
+
+        if (age < 18 || age > maxAge) {
+          const range = sex === "F" ? "18 a 55 anos" : "18 a 61 anos";
+
+          ageInput.setCustomValidity(
+            `A faixa de referência desta equação é de ${range}.`
+          );
+        }
+      }
+
+      sexSelect.addEventListener("change", validateAge);
+      ageInput.addEventListener("input", validateAge);
+
+      function clearPreview(config) {
+        const oldUrl = objectUrls.get(config.input);
+
+        if (oldUrl) {
+          URL.revokeObjectURL(oldUrl);
+          objectUrls.delete(config.input);
+        }
+
+        document.getElementById(config.preview).hidden = true;
+        document.getElementById(config.image).removeAttribute("src");
+        document.getElementById(config.name).textContent = "";
+      }
+
+      photos.forEach((config) => {
+        const input = document.getElementById(config.input);
+
+        input.addEventListener("change", () => {
+          clearStatus();
+          clearPreview(config);
+
+          const file = input.files && input.files[0];
+
+          if (!file) {
+            return;
+          }
+
+          if (!ALLOWED_TYPES.includes(file.type)) {
+            input.value = "";
+            showStatus(
+              `A imagem ${config.label.toLowerCase()} precisa estar em JPG, PNG ou WEBP.`,
+              true
+            );
+            return;
+          }
+
+          if (file.size > MAX_FILE_SIZE) {
+            input.value = "";
+            showStatus(
+              `A imagem ${config.label.toLowerCase()} excede o limite de 10 MB.`,
+              true
+            );
+            return;
+          }
+
+          const url = URL.createObjectURL(file);
+          objectUrls.set(config.input, url);
+
+          document.getElementById(config.image).src = url;
+
+          document.getElementById(config.name).textContent =
+            `${file.name} · ${(file.size / (1024 * 1024)).toFixed(2)} MB`;
+
+          document.getElementById(config.preview).hidden = false;
+        });
+      });
+
+      function addTableRow(tbodyId, label, value) {
+        const tbody = document.getElementById(tbodyId);
+        const row = document.createElement("tr");
+        const nameCell = document.createElement("td");
+        const valueCell = document.createElement("td");
+
+        nameCell.textContent = label;
+        valueCell.textContent = value;
+
+        row.append(nameCell, valueCell);
+        tbody.appendChild(row);
+      }
+
+      function buildTable(tbodyId, fields) {
+        const tbody = document.getElementById(tbodyId);
+        tbody.replaceChildren();
+
+        fields.forEach(([label, id]) => {
+          const value = numericValue(id);
+
+          addTableRow(
+            tbodyId,
+            label,
+            value === null ? "Não informado" : formatNumber(value)
+          );
+        });
+      }
+
+      function calculateComposition() {
+        const age = numericValue("idade");
+        const sex = sexSelect.value;
+        const weight = numericValue("peso");
+        const heightCm = numericValue("altura");
+
+        const values = skinfolds.map(([, id]) => numericValue(id));
+
+        if (
+          age === null ||
+          !sex ||
+          weight === null ||
+          heightCm === null ||
+          values.some(value => value === null)
+        ) {
+          return null;
+        }
+
+        const sum = values.reduce((total, value) => total + value, 0);
+
+        let density;
+
+        if (sex === "M") {
+          density =
+            1.112 -
+            (0.00043499 * sum) +
+            (0.00000055 * sum * sum) -
+            (0.00028826 * age);
+        } else {
+          density =
+            1.097 -
+            (0.00046971 * sum) +
+            (0.00000056 * sum * sum) -
+            (0.00012828 * age);
+        }
+
+        if (!Number.isFinite(density) || density <= 0) {
+          return null;
+        }
+
+        // Conversão de Siri a partir da densidade corporal estimada.
+        const bodyFat = (495 / density) - 450;
+        const heightM = heightCm / 100;
+        const bmi = weight / (heightM * heightM);
+
+        if (!Number.isFinite(bodyFat) || bodyFat < 0 || bodyFat > 75) {
+          return {
+            sum,
+            density,
+            bodyFat: null,
+            fatMass: null,
+            leanMass: null,
+            bmi
+          };
+        }
+
+        const fatMass = weight * bodyFat / 100;
+        const leanMass = weight - fatMass;
+
+        return {
+          sum,
+          density,
+          bodyFat,
+          fatMass,
+          leanMass,
+          bmi
+        };
+      }
+
+      function buildPhotosReport() {
+        const reportPhotos = document.getElementById("rFotos");
+        reportPhotos.replaceChildren();
+
+        photos.forEach((config) => {
+          const input = document.getElementById(config.input);
+          const file = input.files && input.files[0];
+          const url = objectUrls.get(config.input);
+
+          if (!file || !url) {
+            return;
+          }
+
+          const card = document.createElement("div");
+          card.className = "report-photo-card";
+
+          const image = document.createElement("img");
+          image.src = url;
+          image.alt = config.label;
+
+          const caption = document.createElement("p");
+          caption.textContent = `${config.label}: ${file.name}`;
+
+          card.append(image, caption);
+          reportPhotos.appendChild(card);
+        });
+      }
+
+      function buildReport() {
+        const name = document.getElementById("nome").value.trim();
+        const age = numericValue("idade");
+        const sex = sexSelect.value;
+        const weight = numericValue("peso");
+        const height = numericValue("altura");
+        const objective =
+          document.getElementById("objetivo").value.trim();
+
+        const composition = calculateComposition();
+
+        setText("rNome", name);
+        setText("rIdade", formatNumber(age, 0));
+        setText("rPeso", formatNumber(weight));
+        setText("rAltura", formatNumber(height));
+
+        setText(
+          "rGordura",
+          composition && composition.bodyFat !== null
+            ? formatNumber(composition.bodyFat) + "%"
+            : "Não calculado"
+        );
+
+        setText(
+          "rMassaGorda",
+          composition && composition.fatMass !== null
+            ? formatNumber(composition.fatMass)
+            : "Não calculada"
+        );
+
+        setText(
+          "rMassaMagra",
+          composition && composition.leanMass !== null
+            ? formatNumber(composition.leanMass)
+            : "Não calculada"
+        );
+
+        setText(
+          "rIMC",
+          composition ? formatNumber(composition.bmi) : "Não calculado"
+        );
+
+        setText(
+          "rObjetivo",
+          "Objetivo principal: " + (objective || "Não informado.")
+        );
+
+        const now = new Date();
+
+        setText(
+          "reportDate",
+          "Data: " + new Intl.DateTimeFormat("pt-BR").format(now)
+        );
+
+        setText(
+          "reportSubtitle",
+          `Aluno: ${name} · ${age} anos · Sexo selecionado para a equação: ${
+            sex === "M" ? "Masculino" : "Feminino"
+          }`
+        );
+
+        buildTable("rPerimetria", perimetry);
+        buildTable("rDobras", skinfolds);
+
+        setText(
+          "rSomaDobras",
+          "Soma das sete dobras: " +
+            (composition
+              ? formatNumber(composition.sum) + " mm"
+              : "Não calculada")
+        );
+
+        buildPhotosReport();
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+
+        clearStatus();
+        validateAge();
+
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const hasPhoto = photos.some((config) => {
+          const input = document.getElementById(config.input);
+          return Boolean(input.files && input.files.length);
+        });
+
+        if (!hasPhoto) {
+          showStatus(
+            "Selecione pelo menos uma fotografia para gerar o relatório.",
+            true
+          );
+          document.getElementById("fotoFrontal").focus();
+          return;
+        }
+
+        buildReport();
+
+        report.hidden = false;
+        report.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+        showStatus(
+          "Relatório gerado. Você já pode conferir os dados e imprimir ou salvar em PDF."
+        );
+      });
+
+      document.getElementById("printBtn").addEventListener("click", () => {
+        window.print();
+      });
+
+      document.getElementById("newEvalBtn").addEventListener("click", () => {
+        form.reset();
+
+        photos.forEach((config) => {
+          clearPreview(config);
+        });
+
+        report.hidden = true;
+        clearStatus();
+
+        ageInput.max = "61";
+        ageInput.setCustomValidity("");
+
+        window.scrollTo({
+          top: 0,
+          behavior: "smooth"
+        });
+      });
+    })();
+  </script>
 </body>
 </html>
